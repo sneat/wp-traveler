@@ -23,7 +23,7 @@ function weather_wp_head(){
 		?>
 		<!--	wp-travel css -->
 			<style type="text/css">
-				.weather {color:#999999;margin:1em 0;font-size:10px;}	
+				.weather {color:#999999;margin:1em 0;font-size:10px;}
 			</style>
 		<?php
 	}
@@ -134,11 +134,18 @@ function append_travel_weather_info($content = '')
 function weather_admin_head(){
 		wp_print_scripts( array( 'sack' ));
 		?>
+		<!--	wp-travel css -->
+			<style type="text/css">
+				span.weather_response {margin-left:3em;display:block;font-weight:bold;}
+			</style>
 		<!--	wp-travel -->
 		<script type="text/javascript">
 		//<![CDATA[
 		function makeNotice(type,message){
 			if (type=='notice'){wclass='updated';}else{wclass='error';}
+			if (type=='error'){
+				if(jQuery("#weathernotice").length>0){jQuery("#weathernotice").remove();}
+			}
 			if(jQuery("#weather" + type).length>0){
 				jQuery("#weather" + type).replaceWith('<div id="weather' + type + '" class="' + wclass + '">' + message + '</div>');
 			}else{
@@ -164,13 +171,19 @@ function weather_admin_head(){
 					mysack.setVar( "latitude", lat );
 					mysack.setVar( "longitude", lon );
 					mysack.encVar( "cookie", document.cookie, false );
-					mysack.onError = function() {jQuery("#weathernotice").remove();makeNotice('error','<p>Error looking up weather details. Please try again later.</p>');};
-					mysack.onCompletion = function() {makeNotice('notice','<p><span style="float:right;"><a href="#" onclick="jQuery(\'#weathernotice\').remove(); return false;">Dismiss</a></span>Weather details fetched. You can now update the <a href="#" onclick="jQuery(\'#wp_travel_location\').focus(); return false;">Location name</a>.</p><p>Weather details will be saved with your post.</p>');};
+					mysack.onError = function() {makeNotice('error','<p>Error looking up weather details. Please try again later.</p>');};
 					mysack.runAJAX();
 					
 				}
 			}
 		};
+		
+		function responseReceived(loc,temp,hum){
+			document.getElementById("wp_travel_location").value=loc;
+			document.getElementById("wp_travel_temperature").value=temp;
+			document.getElementById("wp_travel_humidity").value=hum;
+			makeNotice('notice','<p><span style="float:right;"><a href="#" onclick="jQuery(\'#weathernotice\').remove(); return false;">Dismiss</a></span>Weather details fetched. You can now update the <a href="#" onclick="jQuery(\'#wp_travel_location\').focus(); return false;">Location name</a>.</p><p>Weather details will be saved with your post.</p>');
+		}
 		//]]>
 		</script>
 		<?php
@@ -182,16 +195,25 @@ function weather_admin_head(){
 function updateWeather(){
 	$lat = $_POST['latitude'];
 	$long = $_POST['longitude'];
-	
 	$url = "http://ws.geonames.org/findNearByWeather?lat=$lat&lng=$long";
-	$c   = curl_init($url);
-	curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
-	$xml = curl_exec($c);
-	curl_close($c);
+	
+	if(function_exists('curl_init')) {
+		$c   = curl_init($url);
+		curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($c, CURLOPT_CONNECTTIMEOUT, 3);
+		curl_setopt($c, CURLOPT_TIMEOUT, 5);
+		$xml = curl_exec($c);
+		curl_close($c);
+	}else{
+		$fp = fopen($url,"r");
+		while (!feof ($fp))
+			$xml .= fgets($fp, 4096);
+		fclose ($fp);
+	}
 
 	// Send request to elevation server 
 	if(!$xml) {
-	die( "alert('Could not connect to lookup host.')" );
+	die('makeNotice(\'error\',\'<p>Error looking up weather details. Please try again later.</p>\');');
 	} 
 	
 	// Fire up the built-in XML parser
@@ -207,12 +229,13 @@ function updateWeather(){
 
 	$xml = new SimpleXmlElement($xml);
 
+	$status = $xml->status['message'];
 	$location = $xml->observation[0]->stationName;
 	$temp = $xml->observation[0]->temperature;
 	$humidity = $xml->observation[0]->humidity;
 	
-	// Compose JavaScript for return
-  die('document.getElementById("wp_travel_location").value = "' . $location . '";document.getElementById("wp_travel_temperature").value = "' . $temp . '";document.getElementById("wp_travel_humidity").value = "' . $humidity . '";');
+	if($status) die("makeNotice('error','<p>No weather details found for the location specified.</p><p>Received the following response:<span class=\"weather_response\">".ucfirst($status).".</span></p>');");
+	else die("responseReceived('$location',$temp,$humidity);");
 
 }
 

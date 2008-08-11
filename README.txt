@@ -1,5 +1,5 @@
 === Weather Traveler  ===
-Contributors: Blair McMillan, Ben Huson
+Contributors: Blair McMillan
 Donate link: http://www.benhuson.co.uk/wordpress-plugins/wp-geo/
 Tags: weather, maps, map, geo, geocoding, location
 Requires at least: 2.5

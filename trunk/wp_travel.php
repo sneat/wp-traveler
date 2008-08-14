@@ -187,6 +187,9 @@ function weather_admin_head(){
                         if (type=='error'){
                                 if(jQuery("#weathernotice").length>0){jQuery("#weathernotice").remove();}
                         }
+                        if (type=='notice'){
+                                if(jQuery("#weathererror").length>0){jQuery("#weathererror").remove();}
+                        }
                         if(jQuery("#weather" + type).length>0){
                                 jQuery("#weather" + type).replaceWith('<div id="weather' + type + '" class="' + wclass + '">' + message + '</div>');
                         }else{
@@ -245,12 +248,14 @@ function updateWeather(){
                 curl_setopt($c, CURLOPT_TIMEOUT, 5);
                 $data = curl_exec($c);
                 curl_close($c);
-        }else{
+        }elseif(function_exists('fopen')) {
                 $fp = fopen($url,"r");
                 while (!feof ($fp))
                         $data .= fgets($fp, 4096);
                 fclose ($fp);
-        }
+        }else {
+			die('makeNotice(\'error\',\'<p>Error looking up weather details. Your server does not support CURL or fopen.</p>\');');
+		}
 
 
         // Send request to elevation server

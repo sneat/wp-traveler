@@ -1,4 +1,4 @@
-=== Weather Traveler  ===
+=== Weather Traveller  ===
 Contributors: Blair McMillan
 Donate link: http://www.benhuson.co.uk/wordpress-plugins/wp-geo/
 Tags: weather, maps, map, geo, geocoding, location
@@ -9,20 +9,30 @@ Stable tag: 2.1.2
 Add weather details to your post based on location specified. Requires wp-geo plugin.
 
 == Description ==
-Designed for people who use their blog while traveling the planet, Weather Traveler allows you to add weather information to the bottom of your posts in an easy way. Requires WP Geo (http://www.benhuson.co.uk/wordpress-plugins/wp-geo/).
+Designed for people who use their blog while travelling the planet, Weather Traveller allows you to add weather information to the bottom of your posts in an easy way. This means you can let your blog readers know what the weather is like in the location you specify at the time you post.
+
+I got the idea from Weather Postin' by Matthew Richmond (http://wordpress.org/extend/plugins/weather-postin/)
+
+Requires WP Geo (http://www.benhuson.co.uk/wordpress-plugins/wp-geo/).
 
 = Features =
 
 * Show weather details for a specified location.
 * Edit weather details (such as location) prior to saving.
+* Does not change the original post content.
 
 == Installation ==
 1. Download the archive file and uncompress it.
-2. Put the "wp-traveler" folder in "wp-content/plugins"
+2. Put the "wp-traveller" folder in "wp-content/plugins"
 3. Enable in WordPress by visiting the "Plugins" menu and activating it.
 
 Weather will appear on the edit post screens.
 If you set a location in WP Geo and fetch the weather for that location, the weather details (at the time of posting) will be shown at the bottom of your post.
+
+== Faq ==
+
+= I've activated the plugin, but my posts don't have any weather information =
+Make sure that you click on "Fetch weather" before you Save your post. Also, posts added prior to adding this plugin will not have weather information associated with them unless you go back and "Fetch weather" for each of them.
 
 == Screenshots ==
 

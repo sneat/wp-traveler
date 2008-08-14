@@ -37,7 +37,9 @@ Make sure that you click on "Fetch weather" before you Save your post. Also, pos
 == Screenshots ==
 
 1. Example of a post showing the weather (and map from WP Geo).
-2. Admin panel shown when editing a post or page.
+2. Options page.
+3. Admin panel shown when editing a post or page (degrees Celsius).
+4. Admin panel shown when editing a post or page (degrees Fahrenheit).
 
 == License ==
 This program is free software; you can redistribute it and/or

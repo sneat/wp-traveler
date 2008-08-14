@@ -17,7 +17,7 @@ add_action('save_post', 'save_post');
 add_action('edit_form_advanced', 'travel_dbx_post_advanced');
 add_filter('the_content', 'append_travel_weather_info');
 add_action('wp_head', 'weather_wp_head');
-add_action('admin_menu', 'admin_menu');
+add_action('admin_menu', 'weather_admin_menu');
 add_action('admin_head', 'weather_admin_head');
 add_action('wp_ajax_updateWeather', 'updateWeather' );
 
@@ -385,7 +385,7 @@ function options_page()
 /**
  * Hook: admin_menu
  */
-function admin_menu()
+function weather_admin_menu()
 {
 	if (function_exists('add_options_page'))
 	{

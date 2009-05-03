@@ -2,14 +2,15 @@
 /*
 Plugin Name: Weather Traveller
 Plugin URI: http://www.mcmillan.id.au
-Description: Gets weather information from www.geonames.org based on lat and long taken from wp-geo plugin (http://www.benhuson.co.uk/wordpress-plugins/wp-geo/)
+Description: Gets weather information from www.geonames.org based on lat and long taken from wp-geo plugin (http://www.wpgeo.com/)
 Author: Blair McMillan
-Version: 1.2
+Version: 1.2.1
 Author URI: http://www.mcmillan.id.au/
 
 Changelog
 1.1			Added Options.
 1.2			Added Fahrenheit support.
+1.2.1		Updated to support WP-Geo changing div names
 */
 
 register_activation_hook(__FILE__, 'register_activation');
@@ -27,10 +28,16 @@ add_action('wp_ajax_updateWeather', 'updateWeather' );
 function register_activation()
 {
 	$options = array(
-		'colour' => '#999999', 
-		'margin' => '1em 0',
-		'font-size' => '10px',
-		'unit' => 'C'
+		'colour' 		=> '#999999', 
+		'margin' 		=> '1em 0',
+		'font-size' 	=> '10px',
+		'unit' 			=> 'C',
+		'temperature' 	=> true,
+		'humidity' 		=> true,
+		'dew' 			=> false,
+		'windSpeed'		=> false,
+		'windDirection'	=> false,
+		'clouds'		=> false,
 	);
 	add_option('wp_travel_options', $options);
 	$wp_travel_options = get_option('wp_travel_options');
@@ -60,7 +67,7 @@ function weather_wp_head(){
  * Weather feed
  */
 function getWeather($lat,$long) {
-        $url = "http://ws.geonames.org/findNearByWeather?lat=$lat&lng=$long";
+        $url = "http://ws.geonames.org/findNearByWeatherXML?lat=$lat&lng=$long";
         $c   = curl_init($url);
         curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
         $xml = curl_exec($c);
@@ -198,7 +205,7 @@ function weather_admin_head(){
                 }
                
                 function updateWeather(){
-                        if (jQuery("#wpgeolocationdiv").length<1){
+                        if (jQuery("#wpgeo_location").length<1){
                                 makeNotice('error','<p>Weather Traveler requires <a href="http://www.benhuson.co.uk/wordpress-plugins/wp-geo/" target="_blank">WP Geo Location</a> to be installed. Please install this before trying to use Traveller weather.</p>');
                         }else {
                                 var lat = jQuery("#wp_geo_latitude").val();
@@ -239,7 +246,7 @@ function weather_admin_head(){
 function updateWeather(){
         $lat = $_POST['latitude'];
         $long = $_POST['longitude'];
-        $url = "http://ws.geonames.org/findNearByWeather?lat=$lat&lng=$long";
+        $url = "http://ws.geonames.org/findNearByWeatherXML?lat=$lat&lng=$long";
        
         if(function_exists('curl_init')) {
                 $c   = curl_init($url);

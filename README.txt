@@ -3,7 +3,7 @@ Contributors: Blair McMillan
 Donate link: http://www.benhuson.co.uk/wordpress-plugins/wp-geo/
 Tags: weather, maps, map, geo, geocoding, location
 Requires at least: 2.5
-Tested up to: 2.5.1
+Tested up to: 2.7.1
 Stable tag: 2.1.2
 
 Add weather details to your post based on location specified. Requires wp-geo plugin.
@@ -13,7 +13,7 @@ Designed for people who use their blog while travelling the planet, Weather Trav
 
 I got the idea from Weather Postin' by Matthew Richmond (http://wordpress.org/extend/plugins/weather-postin/)
 
-Requires WP Geo (http://www.benhuson.co.uk/wordpress-plugins/wp-geo/).
+Requires WP Geo (http://www.wpgeo.com/).
 
 = Features =
 

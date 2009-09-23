@@ -3,8 +3,7 @@ Contributors: Blair McMillan
 Donate link: http://www.benhuson.co.uk/wordpress-plugins/wp-geo/
 Tags: weather, maps, map, geo, geocoding, location
 Requires at least: 2.5
-Tested up to: 2.7.1
-Stable tag: 2.1.2
+Tested up to: 2.8.4
 
 Add weather details to your post based on location specified. Requires wp-geo plugin.
 
@@ -13,7 +12,7 @@ Designed for people who use their blog while travelling the planet, Weather Trav
 
 I got the idea from Weather Postin' by Matthew Richmond (http://wordpress.org/extend/plugins/weather-postin/)
 
-Requires WP Geo (http://www.wpgeo.com/).
+Requires WP Geo (http://www.benhuson.co.uk/wordpress-plugins/wp-geo/).
 
 = Features =
 
@@ -33,13 +32,6 @@ If you set a location in WP Geo and fetch the weather for that location, the wea
 
 = I've activated the plugin, but my posts don't have any weather information =
 Make sure that you click on "Fetch weather" before you Save your post. Also, posts added prior to adding this plugin will not have weather information associated with them unless you go back and "Fetch weather" for each of them.
-
-== Screenshots ==
-
-1. Example of a post showing the weather (and map from WP Geo).
-2. Options page.
-3. Admin panel shown when editing a post or page (degrees Celsius).
-4. Admin panel shown when editing a post or page (degrees Fahrenheit).
 
 == License ==
 This program is free software; you can redistribute it and/or

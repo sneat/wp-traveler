@@ -2,7 +2,7 @@
     <div id="icon-options-general" class="icon32"></div>
     <h2><?php echo __('Weather Traveller Options', 'wp-traveller'); ?></h2>
 
-    <form action="options-general.php?page=wp-traveller/wp_travel.php" method="post">
+    <form action="options-general.php?page=weather-traveller/wp_travel.php" method="post">
 	<div id="poststuff" class="ui-sortable">
 	    <div class="postbox opened">
 		<h3><?php echo __('General', 'wp-traveller'); ?></h3>

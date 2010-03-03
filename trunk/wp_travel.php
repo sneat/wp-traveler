@@ -4,17 +4,20 @@ Plugin Name: Weather Traveller
 Plugin URI: http://www.mcmillan.id.au
 Description: Gets weather information from www.geonames.org based on lat and long taken from wp-geo plugin (http://www.benhuson.co.uk/wordpress-plugins/wp-geo/)
 Author: Blair McMillan
-Version: 2.0
+Version: 2.2
 Author URI: http://www.mcmillan.id.au/
 
 Changelog
 1.1		Added Options.
 1.2		Added Fahrenheit support.
-1.2.1		Updated to support WP-Geo changing div names.
+1.2.1	Updated to support WP-Geo changing div names.
 2.0		Complete code re-write.
 		    Added ability to use more of the data returned from geonames.org
 		    Added internationalisation support.
 		    Added template support.
+2.1		Fixed bug reported by husobj.
+2.2		Determined Weather Traveller is not working correctly with PHP4, will fix in a future version. Updated error message to match. (Issue 4)
+		Fixed Fahrenheit not displaying correctly. (Issue 5)
 */
 
 if (!class_exists("WeatherTraveller")) {
@@ -427,9 +430,10 @@ if (!class_exists("WeatherTraveller")) {
 	    global $wt;
 
 	    // Convert degrees C to degrees F if required
-	    if ($this->wt_unit=='F' && is_int($this->wp_travel_temperature))
+	    if ($this->wt_unit=='F' && !empty($this->wp_travel_temperature))
 	    {
-		$this->wp_travel_temperature = round(($this->wp_travel_temperature * 1.8) + 32, 2);
+			$this->wp_travel_temperature = (int) $this->wp_travel_temperature;
+			$this->wp_travel_temperature = round(($this->wp_travel_temperature * 1.8) + 32, 2);
 	    }
 
 	    // Make sure there are no blank template variables
